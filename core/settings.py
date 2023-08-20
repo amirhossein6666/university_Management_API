@@ -35,6 +35,8 @@ INSTALLED_APPS = [
     'faculty',
     'professor',
     'student',
+    'rest_framework',
+    'drf_yasg',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
