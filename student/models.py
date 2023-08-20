@@ -6,3 +6,6 @@ class student(models.Model):
     professors = models.ManyToManyField('professor.professor')
     courses = models.ManyToManyField('course.course')
     grade = models.IntegerField()
+
+    def __str__(self):
+        return self.name
