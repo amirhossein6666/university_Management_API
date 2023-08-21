@@ -35,7 +35,9 @@ INSTALLED_APPS = [
     'faculty',
     'professor',
     'student',
+    'users',
     'rest_framework',
+    'rest_framework.authtoken',
     'drf_yasg',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -127,3 +129,17 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+    ],
+    # ... other settings
+}
+
+AUTHENTICATION_BACKENDS = [
+    'users.custom_auth_backends.CustomBackend',
+    'django.contrib.auth.backends.ModelBackend',
+]
+
+AUTH_USER_MODEL = 'users.customUser'  # Adjust the app label and model name as needed

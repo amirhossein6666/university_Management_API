@@ -19,5 +19,10 @@ from django.urls import path, include
 from . import swagger
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('doc/', include(swagger))
+    path('doc/', include(swagger)),
+    path('course/', include('course.urls')),
+    path('faculty/', include('faculty.urls')),
+    path('professor/', include('professor.urls')),
+    path('student/', include('student.urls')),
+    path('', include('users.urls')),
 ]
