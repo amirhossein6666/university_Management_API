@@ -5,7 +5,6 @@ from .models import customUser
 class CustomBackend(ModelBackend):
     def authenticate(self, request, username=None, password=None, role=None, **kwargs):
         try:
-            print(customUser.objects.all())
             user = customUser.objects.get(username=username, role=role, password=password)
             return user
         except customUser.DoesNotExist:
