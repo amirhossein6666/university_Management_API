@@ -35,6 +35,7 @@ INSTALLED_APPS = [
     'faculty',
     'professor',
     'student',
+    'myAdmin',
     'users',
     'rest_framework',
     'rest_framework.authtoken',
@@ -142,4 +143,6 @@ AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
 ]
 
-AUTH_USER_MODEL = 'users.customUser'  # Adjust the app label and model name as needed
+AUTH_USER_MODEL = 'myAdmin.Admin' 
+AUTH_USER_MODEL = 'professor.professor' 
+# AUTH_USER_MODEL = 'student.student' 

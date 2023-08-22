@@ -1,20 +1,25 @@
 from django.contrib.auth.backends import ModelBackend
 from django.contrib.auth import get_user_model
-from .models import customUser
+from professor.models import professor
+from student.models import student
+from myAdmin.models import Admin
 
 class CustomBackend(ModelBackend):
-    def authenticate(self, request, username=None, password=None, role=None, **kwargs):
+    def professor_authenticate(self, request, username=None, password=None, **kwargs):
         try:
-            user = customUser.objects.get(username=username, role=role, password=password)
-            return user
-        except customUser.DoesNotExist:
+            prof = professor.objects.get(username=username, password=password)
+            return prof
+        except professor.DoesNotExist:
             return None
-
-        # if user.check_password(password):
-        #     return user
-
-    # def get_user(self, user_id):
-    #     try:
-    #         return User.objects.get(pk=user_id)
-    #     except User.DoesNotExist:
-    #         return None
+    def student_authenticate(self, request, username=None, password=None, **kwargs):
+        try:
+            stu = student.objects.get(username=username, password=password)
+            return stu
+        except student.DoesNotExist:
+            return None
+    def admin_authenticate(self, request, username=None, password=None, **kwargs):
+        try:
+            admin = Admin.objects.get(username=username, password=password)
+            return admin
+        except Admin.DoesNotExist:
+            return None
