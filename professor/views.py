@@ -13,21 +13,3 @@ def professorList(request):
     profList = professor.objects.all()
     serilizerdprofessor = professorSerializer(profList, many=True)
     return Response(serilizerdprofessor.data)
-
-@api_view(['POST'])
-@permission_classes([IsAuthenticated, IsAdminUser])
-def professorCreate(request):
-    if request.method == 'POST' :
-        facultyName = request.data['faculty']
-        myFaculty = faculty.objects.get(name=facultyName)
-        professor = {
-            'name' : request.data['name'],
-            'faculty' : myFaculty.id,
-        }
-        print("test2")
-        serializedProfessor = professorSerializer(data=professor)
-        if serializedProfessor.is_valid():
-            print("test")
-            serializedProfessor.save()
-            return Response(serializedProfessor.data, status=status.HTTP_201_CREATED)
-        return Response(serializedProfessor.errors, status= status.HTTP_400_BAD_REQUEST)
