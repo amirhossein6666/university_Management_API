@@ -6,7 +6,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from core.permissions import IsAdminUser
 @api_view(['GET'])
-@permission_classes([IsAuthenticated, IsAdminUser])
+@permission_classes([IsAuthenticated])
 def facultyList(request):
     faculties = faculty.objects.all()
     serilizedFaculties = facultySerializers(faculties, many= True)
@@ -14,7 +14,7 @@ def facultyList(request):
 
 
 @api_view(['POST'])
-@permission_classes([IsAuthenticated])
+@permission_classes([IsAuthenticated, IsAdminUser])
 def facultyCreate(request):
     if request.method == 'POST':
         serilizedFaculty = facultySerializers(data=request.data)

@@ -5,10 +5,11 @@ from django.contrib.auth.models import AbstractUser, Group, Permission
 class student(AbstractUser):
     username = models.CharField(max_length=50)
     password = models.CharField(max_length=50)
-    professors = models.ManyToManyField('professor.professor')
-    courses = models.ManyToManyField('course.course')
-    grade = models.IntegerField()
+    professors = models.ManyToManyField('professor.professor', null=True , blank=True)
+    courses = models.ManyToManyField('course.course', null=True , blank=True)
+    grade = models.IntegerField(null=True , blank=True)
     role = models.CharField(default="student", max_length=40)
+
     groups = models.ManyToManyField(
         Group,
         verbose_name=('groups'),
@@ -29,4 +30,4 @@ class student(AbstractUser):
         related_name='students_user_permissions'  # Custom related_name for students
     )
     def __str__(self):
-        return self.name
+        return self.username

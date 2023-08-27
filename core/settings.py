@@ -134,16 +134,24 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTHENTICATION_CLASSES = (
     # 'rest_framework.authentication.TokenAuthentication',
     # ... other authentication classes ...
-    'custom_token.custom_token_backend.CustomTokenBackend',   
+    'custom_token.custom_token_backend.AdminCustomTokenBackend',   
+    'custom_token.custom_token_backend.professorCustomTokenBackend',
+    'custom_token.custom_token_backend.studentCustomTokenBackend',
+
 )
 
 AUTHENTICATION_BACKENDS = [
-    'custom_token.custom_token_backend.CustomTokenBackend',
+    'custom_token.custom_token_backend.AdminCustomTokenBackend',
+    'custom_token.custom_token_backend.professorCustomTokenBackend',
+    'custom_token.custom_token_backend.studentCustomTokenBackend',
     'django.contrib.auth.backends.ModelBackend',
+
 ]
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
-        'custom_token.custom_token_backend.CustomTokenBackend',
+        'custom_token.custom_token_backend.AdminCustomTokenBackend',
+        'custom_token.custom_token_backend.professorCustomTokenBackend',
+        'custom_token.custom_token_backend.studentCustomTokenBackend',
         # 'rest_framework.authentication.TokenAuthentication',
         # ...
     ],
