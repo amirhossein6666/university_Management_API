@@ -31,11 +31,12 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'custom_token',
+    'myAdmin',
     'course',
     'faculty',
     'professor',
     'student',
-    'users',
     'rest_framework',
     'rest_framework.authtoken',
     'drf_yasg',
@@ -130,16 +131,20 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework.authentication.TokenAuthentication',
-    ],
-    # ... other settings
-}
+AUTHENTICATION_CLASSES = (
+    # 'rest_framework.authentication.TokenAuthentication',
+    # ... other authentication classes ...
+    'custom_token.custom_token_backend.CustomTokenBackend',   
+)
 
 AUTHENTICATION_BACKENDS = [
-    'users.custom_auth_backends.CustomBackend',
+    'custom_token.custom_token_backend.CustomTokenBackend',
     'django.contrib.auth.backends.ModelBackend',
 ]
-
-AUTH_USER_MODEL = 'users.customUser'  # Adjust the app label and model name as needed
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'custom_token.custom_token_backend.CustomTokenBackend',
+        # 'rest_framework.authentication.TokenAuthentication',
+        # ...
+    ],
+}

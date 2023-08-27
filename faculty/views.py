@@ -8,6 +8,7 @@ from core.permissions import IsAdminUser
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def facultyList(request):
+    print("test")
     faculties = faculty.objects.all()
     serilizedFaculties = facultySerializers(faculties, many= True)
     return Response(serilizedFaculties.data)

@@ -4,12 +4,10 @@ from .models import course
 from .serializers import courseSerializers
 from rest_framework.response import Response
 from rest_framework import status
-from users.models import customUser
 from faculty.models import faculty
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def courseList(request):
-    print(course.objects.get(pk=1).professor)
     courses = course.objects.all()
     serializedCourses = courseSerializers(courses, many=True)
     return Response(serializedCourses.data)
@@ -29,7 +27,6 @@ def courseCreate(request):
             'courseFaculty': myCourseFaculty.id
         }
         serializedcourse = courseSerializers(data=myCourse)
-        print(customUser.objects.get(pk=2))
         if serializedcourse.is_valid():
             serializedcourse.save()
             return Response(serializedcourse.data, status=status.HTTP_201_CREATED)
