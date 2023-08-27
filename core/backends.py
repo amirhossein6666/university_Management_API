@@ -24,14 +24,7 @@ class StudentBackend(ModelBackend):
 
 class AdminBackend(ModelBackend):
     def authenticate(self, request, username=None, password=None, **kwargs):
-        # try:
-        #     user = myAdmin.objects.get(username=username)
-        #     print(user)
-        # except myAdmin.DoesNotExist:
-        #     return None
-        # if user.check_password(password):
-        #     return user
-        # return None
+
         try:
             user = myAdmin.objects.get(username=username, password=password)
         except myAdmin.DoesNotExist:

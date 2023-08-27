@@ -8,14 +8,13 @@ from core.permissions import IsAdminUser
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def facultyList(request):
-    print("test")
     faculties = faculty.objects.all()
     serilizedFaculties = facultySerializers(faculties, many= True)
     return Response(serilizedFaculties.data)
 
 
 @api_view(['POST'])
-@permission_classes([IsAuthenticated, IsAdminUser])
+@permission_classes([IsAuthenticated])
 def facultyCreate(request):
     if request.method == 'POST':
         serilizedFaculty = facultySerializers(data=request.data)
