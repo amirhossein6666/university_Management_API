@@ -13,7 +13,7 @@ class CustomTokenBackend(ModelBackend):
                 custom_token = CustomToken.objects.get(key=token_key)
 
                 return (custom_token.user,"test")
-            except ObjectDoesNotExist:
+            except CustomToken.DoesNotExist:
                 return None
 
         # If the header is missing or doesn't start with "Token ", return None

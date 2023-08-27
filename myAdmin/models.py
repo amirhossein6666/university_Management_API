@@ -5,6 +5,7 @@ from django.contrib.auth.backends import ModelBackend
 class myAdmin(AbstractUser, PermissionsMixin):
     username= models.CharField(max_length=50)
     password = models.CharField(max_length=50)
+    role = models.CharField(default="admin", max_length=40)
     # auth_backend = 'custom_token.custom_token_backend.CustomTokenBackend'
 
     groups = models.ManyToManyField(

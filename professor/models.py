@@ -7,7 +7,7 @@ class professor(AbstractUser):
     password = models.CharField(max_length=50)
     faculty = models.ForeignKey(faculty, on_delete=models.CASCADE)
     students = models.ManyToManyField(student, blank=True , null= True)
-
+    role = models.CharField(default="professor", max_length=40)
     groups = models.ManyToManyField(
         Group,
         verbose_name=('groups'),

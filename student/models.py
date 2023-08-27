@@ -8,7 +8,7 @@ class student(AbstractUser):
     professors = models.ManyToManyField('professor.professor')
     courses = models.ManyToManyField('course.course')
     grade = models.IntegerField()
-
+    role = models.CharField(default="student", max_length=40)
     groups = models.ManyToManyField(
         Group,
         verbose_name=('groups'),
