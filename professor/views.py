@@ -47,4 +47,4 @@ def professorLogin(request):
             return Response({'token': custom_token.key}, status=status.HTTP_200_OK)
 
         return Response({'error': 'Invalid credentials'}, status=status.HTTP_401_UNAUTHORIZED)
-            
+

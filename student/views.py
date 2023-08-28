@@ -9,7 +9,7 @@ from core.backends import StudentBackend
 from custom_token.utils import student_get_custom_token, student_create_custom_token
 from course.models import course
 from django.http import JsonResponse
-
+from .permissions import Is_student
 @api_view(['GET'])
 @permission_classes([IsAuthenticated, IsAdminUser])
 def studentList(request):
@@ -41,7 +41,7 @@ def studentLogin(request):
         return Response ({'error : Invalid credentials'}, status=status.HTTP_401_UNAUTHORIZED)
             
 @api_view(['POST'])
-@permission_classes([IsAuthenticated])
+@permission_classes([IsAuthenticated, Is_student])
 def courseEnroll(request):
     if request.method == 'POST':
         course_name = request.data['course']
