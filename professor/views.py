@@ -12,7 +12,7 @@ from custom_token.utils import professor_get_custom_token, professor_create_cust
 from .permissions import Is_professor
 from student.models import student
 from django.http import JsonResponse
-
+from student.serializers import studentSerializers
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def professorList(request): 
@@ -73,4 +73,9 @@ def set_grade(request):
     myStudent.save()
     return JsonResponse({'message': f'Grade updated to {new_grade}'})
 
-
+@api_view(['GET'])
+@permission_classes([IsAuthenticated, Is_professor])
+def studentList(request):
+    myProfessor = request.user
+    serializedStudent = studentSerializers(myProfessor.students.all(), many=True)
+    return Response(serializedStudent.data, status=status.HTTP_200_OK)
