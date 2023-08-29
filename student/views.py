@@ -10,6 +10,7 @@ from custom_token.utils import student_get_custom_token, student_create_custom_t
 from course.models import course
 from django.http import JsonResponse
 from .permissions import Is_student
+from course.serializers import courseSerializers
 @api_view(['GET'])
 @permission_classes([IsAuthenticated, IsAdminUser])
 def studentList(request):
@@ -61,3 +62,21 @@ def courseEnroll(request):
             return JsonResponse({'message': f'Enrolled in {course_name}'})
 
     return JsonResponse({'message': 'Invalid request'}, status=400)
+
+@api_view(['GET'])
+@permission_classes([Is_student, IsAuthenticated])
+def courseList(request):
+    myStudent = request.user
+    courses = myStudent.courses.all()
+    serializedCourse = courseSerializers(courses, many=True)
+    return Response(serializedCourse.data, status=status.HTTP_200_OK)
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated, Is_student])
+def gradeList(request):
+    mystudent = request.user
+    grades =mystudent.grades
+    gradeDict= {}
+    for key in grades.keys():
+        gradeDict.update({course.objects.get(pk=key).name : grades[key]})
+    return JsonResponse(gradeDict, status=status.HTTP_200_OK)

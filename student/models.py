@@ -7,7 +7,7 @@ class student(AbstractUser):
     password = models.CharField(max_length=50)
     professors = models.ManyToManyField('professor.professor', null=True , blank=True)
     courses = models.ManyToManyField('course.course', null=True , blank=True)
-    grade = models.IntegerField(null=True , blank=True)
+    grades = models.JSONField(null=True, blank=True)
     role = models.CharField(default="student", max_length=40)
 
     groups = models.ManyToManyField(
@@ -21,13 +21,12 @@ class student(AbstractUser):
         related_name='students_groups'  # Custom related_name for students
     )
 
-    # Add a custom related_name for the user_permissions relationship
     user_permissions = models.ManyToManyField(
         Permission,
         verbose_name=('user permissions'),
         blank=True,
         help_text=('Specific permissions for this user.'),
-        related_name='students_user_permissions'  # Custom related_name for students
+        related_name='students_user_permissions'
     )
     def __str__(self):
         return self.username

@@ -9,6 +9,10 @@ from faculty.models import faculty
 from core.permissions import IsAdminUser
 from core.backends import ProfessorBackend
 from custom_token.utils import professor_get_custom_token, professor_create_custom_token
+from .permissions import Is_professor
+from student.models import student
+from django.http import JsonResponse
+
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def professorList(request): 
@@ -47,4 +51,26 @@ def professorLogin(request):
             return Response({'token': custom_token.key}, status=status.HTTP_200_OK)
 
         return Response({'error': 'Invalid credentials'}, status=status.HTTP_401_UNAUTHORIZED)
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated, Is_professor])
+def set_grade(request):
+    studentName = request.data['student']
+    new_grade = request.data['grade']
+    myProfessor = request.user
+    try:
+        myStudent = myProfessor.students.get(username=studentName)
+    except student.DoesNotExist:
+        return JsonResponse({'error': 'Student not found'}, status=404)
+    myCourse = myStudent.courses.get(professor=myProfessor)
+    flag = False
+    if not myStudent.grades:
+        flag = True
+        myStudent.grades = {"test" : "testValue"}
+    myStudent.grades.update({myCourse.id : int(new_grade)})
+    if flag:
+        myStudent.grades.pop("test")
+    myStudent.save()
+    return JsonResponse({'message': f'Grade updated to {new_grade}'})
+
 
