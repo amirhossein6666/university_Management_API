@@ -12,7 +12,7 @@ from django.http import JsonResponse
 from .permissions import Is_student
 from course.serializers import courseSerializers
 @api_view(['GET'])
-@permission_classes([IsAuthenticated, IsAdminUser])
+@permission_classes([IsAuthenticated])
 def studentList(request):
     stulist = student.objects.all()
     serializedStudents = studentSerializers(stulist, many=True)

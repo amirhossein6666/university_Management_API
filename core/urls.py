@@ -25,4 +25,5 @@ urlpatterns = [
     path('professor/', include('professor.urls')),
     path('student/', include('student.urls')),
     path('myadmin/', include('myAdmin.urls')),
+    path('token/', include('custom_token.urls')),
 ]
