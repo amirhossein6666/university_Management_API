@@ -79,3 +79,17 @@ def studentList(request):
     myProfessor = request.user
     serializedStudent = studentSerializers(myProfessor.students.all(), many=True)
     return Response(serializedStudent.data, status=status.HTTP_200_OK)
+@api_view(['get'])
+@permission_classes([IsAuthenticated, Is_professor])
+def getProtest(request):
+    myProfessor = request.user 
+    protests = myProfessor.protests
+    return JsonResponse(protests, status=status.HTTP_200_OK)
+
+@api_view(['DELETE'])
+@permission_classes([IsAuthenticated])
+def deleteProtest(request , studentID):
+    myProfessor = request.user
+    myProfessor.protests.pop(studentID)
+    myProfessor.save()
+    return JsonResponse({'message' : 'proset is mark as read'})

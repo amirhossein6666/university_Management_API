@@ -8,6 +8,7 @@ class professor(AbstractUser):
     faculty = models.ForeignKey(faculty, on_delete=models.CASCADE)
     students = models.ManyToManyField(student, blank=True , null= True)
     role = models.CharField(default="professor", max_length=40)
+    protests = models.JSONField(null=True, blank=True)
     groups = models.ManyToManyField(
         Group,
         verbose_name=('groups'),
@@ -16,16 +17,15 @@ class professor(AbstractUser):
             'The groups this user belongs to. A user will get all permissions '
             'granted to each of their groups.'
         ),
-        related_name='professors_groups'  # Custom related_name for professors
+        related_name='professors_groups' 
     )
 
-    # Add a custom related_name for the user_permissions relationship
     user_permissions = models.ManyToManyField(
         Permission,
         verbose_name=('user permissions'),
         blank=True,
         help_text=('Specific permissions for this user.'),
-        related_name='professors_user_permissions'  # Custom related_name for professors
+        related_name='professors_user_permissions' 
     )
 
 

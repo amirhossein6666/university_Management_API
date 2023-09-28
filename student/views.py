@@ -11,6 +11,7 @@ from course.models import course
 from django.http import JsonResponse
 from .permissions import Is_student
 from course.serializers import courseSerializers
+from professor.models import professor
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def studentList(request):
@@ -80,3 +81,20 @@ def gradeList(request):
     for key in grades.keys():
         gradeDict.update({course.objects.get(pk=key).name : grades[key]})
     return JsonResponse(gradeDict, status=status.HTTP_200_OK)
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated, Is_student])
+def sendProtests(request): 
+    protestText = request.data['body']
+    professorReceiverID = request.data['professor']
+    studentSender = request.user
+    professorReceiver = professor.objects.get(pk=professorReceiverID)
+    flag = False
+    if not professorReceiver.protests: 
+        flag = True
+        professorReceiver.protests= {"test" : "testValue"}
+    professorReceiver.protests.update({studentSender.id: protestText})
+    if flag: 
+        professorReceiver.protests.pop("test")
+    professorReceiver.save()
+    return JsonResponse({'message' : 'protest is sent'})
